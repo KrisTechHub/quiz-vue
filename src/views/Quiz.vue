@@ -4,25 +4,27 @@
     <div v-for="(question, index) in questions" :key="question.id">
       <p>{{ question.id }}</p>
       <p>
-        sample
+        {{  question.text  }}
       </p>
       </div>
   </div>
 </template>
 <script>
+import data from '../../data/db'
 export default {
   data() {
     return {
-      questions: [],
+      questions: data.questions,
       title: 'True OR False Quiz',
       questionIndex: 0,
     }
   },
   mounted() {
-    fetch('http://localhost:3000/questions')
-    .then(res => res.json())
-    .then(data => this.jobs = data)
-    .catch(err => console.log(err.message))
+    console.log('sadas', this.questions)
+    // fetch('http://localhost:3000/questions')
+    // .then(res => res.json())
+    // .then(data => this.jobs = data)
+    // .catch(err => console.log(err.message))
   },
   computed:{
     userResponses(){return Array(this.quiz.questions.length).fill(false)} 
