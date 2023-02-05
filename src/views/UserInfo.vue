@@ -94,7 +94,7 @@ export default {
 <style>
     form {
         max-width: 420px;
-        margin: 30px auto;
+        margin: 100px auto;
         background: #eaeaebc2;
         text-align: left;
         padding: 40px;
