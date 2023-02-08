@@ -2,16 +2,20 @@
   <div class="container">
     <h2 class="title">{{ title }}</h2>
       <div class="correctAnswers">
-      You have <strong>{{ score() }} </strong>  correct {{ pluralizeAnswer }}!
+      <!-- You have <strong>{{ score }} </strong>  correct {{ pluralizeAnswer }}! -->
       </div>
     <div v-for="(question, index) in questions" :key="question.id">
       <div v-show="index === questionIndex">
         <h5>Question number {{ question.id }} out of 10</h5>
         <h2>{{  question.text  }}</h2>
         <div class="radio-button"> 
-          <li v-for="response in question.responses" :key="response.text">
-              <input required type="radio" id="radio1" :value="response.text" :name="index" v-model="userResponses[index]">
-              <label for="radio1">{{ response.text }}</label>
+          <li>
+            <input required type="radio" id="radio1" :value="true" :name="index" v-model="question.answer">
+            <label for="radio1">True</label>
+          </li>
+          <li>
+            <input required type="radio" id="radio1" :value="true" :name="index" v-model="question.answer">
+            <label for="radio1">False</label>
           </li>
           <div class="btn">
             <button v-if="questionIndex > 0" class="prevnext next" @click="prev">Prev</button>
@@ -23,7 +27,7 @@
         <div v-show="questionIndex === questions.length">
             <h2>You completed the Quiz!</h2>
             <button v-on:click="finalScore">View your total score!</button>
-            <p>Total score: {{ score() }}/{{ questions.length }}</p>
+            <p>Total score: {{ score }}/{{ questions.length }}</p>
             <p class="rank">{{ rank }}</p>
         </div>
   </div>
@@ -38,18 +42,28 @@ export default {
       title: 'True OR False Quiz',
       questionIndex: 0,
       index: 0,
-      rank: null
+      rank: null,
     };
   },
   computed: {
     userResponses: function() {
-      return Array(this.questions.length).fill(false)
+      return Array(this.questions.length).fill(false) // 
     },
     pluralizeAnswer() {
       return this.score === 1 ? "answer" : "answers"
+    },
+    score() {
+      let score  = 0;
+      for (const question of this.questions) {
+        if (question.answer == question.correctAnswer) {
+          score++
+        }
+      }
+      return score
     }
   },
   mounted() {
+    // Kayano aadi ini ha mounted?
     if (this.score < 8 || this.score > 5) {
       this.rank = 'Sorry. Please try again.'
     } else if (this.score == 8 || this.score < 11) {
@@ -65,10 +79,12 @@ export default {
     prev() {
       this.questionIndex--;
     },
-    score: function() {
-      return this.userResponses.filter(function(val) {
-        return val }).length;
-    }
+    // score: function() {
+    //   return this.userResponses.filter(function(val) {
+    //     console.log('val', val)
+    //     return val 
+    //   }).length;
+    // }
   }
 }
 
